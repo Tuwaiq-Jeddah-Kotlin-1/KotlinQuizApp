@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/profile_fragment"
+    <item android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/ic_profile"/>
 
-    <item android:id="@+id/main_menu_fragment"
+    <item android:id="@+id/mainMenuFragment"
         android:title="Main menu"
         android:icon="@drawable/ic_home"/>
 
-    <item android:id="@+id/leaderboard_fragment"
+    <item android:id="@+id/leaderboardFragment"
         android:title="Leaderboard"
         android:icon="@drawable/ic_leaderboard"/>
 
-    <item android:id="@+id/settings_fragment"
+    <item android:id="@+id/settingsFragment"
         android:title="Settings"
         android:icon="@drawable/ic_settings"/>
 

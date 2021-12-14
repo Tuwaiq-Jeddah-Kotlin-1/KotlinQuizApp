@@ -5,10 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
+import com.google.firebase.auth.FirebaseAuth
 
 
 class SignInFragment : Fragment() {
+
+
+    private lateinit var email: EditText
+    private lateinit var pass: EditText
+    private lateinit var signIn: Button
+    private lateinit var createAccount: Button
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreateView(
@@ -19,4 +31,73 @@ class SignInFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        email = view.findViewById(R.id.etUsername)
+        pass = view.findViewById(R.id.etPassword)
+        signIn = view.findViewById(R.id.btnSignIn)
+        createAccount = view.findViewById(R.id.btnCreateAccount)
+        auth = FirebaseAuth.getInstance()
+
+        val currentUser = auth.currentUser
+        if(currentUser != null ){
+            val action = SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
+            findNavController().navigate(action)
+        }
+
+        createAccount.setOnClickListener {
+            val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
+            findNavController().navigate(action)
+        }
+
+        signIn.setOnClickListener {
+            if (checkEmpty(arrayListOf(email, pass))) {
+
+                auth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            //val firebaseUser: FirebaseUser = task.result!!.user!!
+                            Toast.makeText(
+                                context,
+                                "Signed in Successfully",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+
+                            val action =
+                                SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
+                            findNavController().navigate(action)
+
+                        } else {
+                            Toast.makeText(
+                                context,
+                                task.exception!!.message.toString(),
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
+                    }
+            }
+        }
+    }
+
+
+    fun checkEmpty(arrayListOf: ArrayList<EditText>): Boolean {
+        var returnValue = false
+        for (i in arrayListOf) {
+            if (i.text.toString() == "") {
+                i.error = "must be filled"
+                returnValue = false
+            } else {
+                returnValue = true
+            }
+        }
+        return returnValue
+    }
 }
+
+
+
+
