@@ -19,13 +19,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="332dp"
+        android:layout_marginTop="284dp"
         android:text="Level"
+        android:textColor="@color/myColor1"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:textColor="@color/myColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,12 +37,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:text="1"
+        android:textColor="@color/myColor1"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:textColor="@color/myColor1"
         app:layout_constraintBottom_toTopOf="@+id/btnStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
         android:id="@+id/btnStart"

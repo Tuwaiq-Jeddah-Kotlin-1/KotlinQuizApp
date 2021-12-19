@@ -33,12 +33,7 @@ class MainMenuFragment : Fragment() {
         var vm  = ViewModelProvider(this).get(MainVM::class.java)
 
         vm.fetchQuiz().observe(viewLifecycleOwner, {
-            //
             recyclerView.adapter = LevelAdapter(it.quiz)
-
-        } )
-
-
-
+        })
     }
 }

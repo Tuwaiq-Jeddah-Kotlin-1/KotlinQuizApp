@@ -65,6 +65,12 @@
         <action
             android:id="@+id/action_questionsFragment_to_levelUpFragment"
             app:destination="@id/levelUpFragment" />
+        <argument
+            android:name="questionsArg"
+            app:argType="com.example.kotlinquizapp.Network.Quiz" />
+        <argument
+            android:name="argLevel"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/levelUpFragment"
@@ -83,6 +89,9 @@
         <action
             android:id="@+id/action_profileFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/startLevelFragment"
@@ -95,6 +104,9 @@
         <action
             android:id="@+id/action_startLevelFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <argument
+            android:name="levelArg"
+            app:argType="com.example.kotlinquizapp.Network.Quiz" />
     </fragment>
     <fragment
         android:id="@+id/tryAgainFragment"
@@ -104,5 +116,14 @@
         <action
             android:id="@+id/action_tryAgainFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.kotlinquizapp.ui.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

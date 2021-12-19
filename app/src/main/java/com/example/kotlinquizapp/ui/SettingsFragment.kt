@@ -1,14 +1,20 @@
 package com.example.kotlinquizapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.kotlinquizapp.R
 
 
 class SettingsFragment : Fragment() {
+
+    private lateinit var share: Button
+    private lateinit var language: Button
+    private lateinit var mode: Button
 
 
     override fun onCreateView(
@@ -18,6 +24,33 @@ class SettingsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        share = view.findViewById(R.id.btnShare)
+        language = view.findViewById(R.id.btnLanguage)
+        mode = view.findViewById(R.id.btnDarkMode)
+
+        val url = "Application Link"
+
+        share.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_TEXT, url)
+            startActivity(Intent.createChooser(intent, "Share using"))
+        }
+
+        language.setOnClickListener {
+
+        }
+
+        mode.setOnClickListener {
+
+        }
+    }
+
+
 
 
 }
