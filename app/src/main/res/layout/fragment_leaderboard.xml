@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:gravity="center"
-        android:text="Leaderboard"
+        android:text="@string/leaderboard"
         android:textColor="@color/myColor1"
         android:textSize="48sp"
         android:textStyle="bold"

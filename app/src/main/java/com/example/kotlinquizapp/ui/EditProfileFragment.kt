@@ -77,10 +77,6 @@ class EditProfileFragment : Fragment() {
 
         deleteAccount.setOnClickListener {
 
-
-
-
-
         }
     }
 
@@ -88,7 +84,7 @@ class EditProfileFragment : Fragment() {
         var i = Intent()
         i.setType("image/*")
         i.setAction(Intent.ACTION_GET_CONTENT)
-        startActivityForResult(Intent.createChooser(i,"Choose Picture"),111)
+        startActivityForResult(Intent.createChooser(i,getString(R.string.chosePic)),111)
     }
 
     private fun uploadPhoto(){

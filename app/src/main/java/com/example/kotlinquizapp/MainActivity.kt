@@ -3,11 +3,13 @@ package com.example.kotlinquizapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.kotlinquizapp.ui.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -34,6 +36,11 @@ class MainActivity : AppCompatActivity() {
                 else ->  bottomNav.visibility = View.VISIBLE
             }
         }
+    }
+
+    fun reload(){
+
+       //navController.navigate(R.id.action_mainMenuFragment_to_settingsFragment)
     }
 }
 

@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/profileFragment"
-        android:title="Profile"
+        android:title="@string/profile"
         android:icon="@drawable/ic_profile"/>
 
     <item android:id="@+id/mainMenuFragment"
-        android:title="Main menu"
+        android:title="@string/main_menu"
         android:icon="@drawable/ic_home"/>
 
     <item android:id="@+id/leaderboardFragment"
@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_leaderboard"/>
 
     <item android:id="@+id/settingsFragment"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/ic_settings"/>
 
 </menu>

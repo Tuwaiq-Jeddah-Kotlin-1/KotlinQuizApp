@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
 
         signOut.setOnClickListener {
             auth.signOut()
-            Toast.makeText(context, "Signed out", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.SignedOut), Toast.LENGTH_LONG).show()
             val action = ProfileFragmentDirections.actionProfileFragmentToSignInFragment()
             findNavController().navigate(action)
         }
