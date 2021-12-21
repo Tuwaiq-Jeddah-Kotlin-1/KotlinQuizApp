@@ -11,6 +11,16 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
+
+
+lateinit var firebaseFirestore: FirebaseFirestore
+lateinit var ref: DatabaseReference
+lateinit var auth: FirebaseAuth
+var firebaseUserId: String = ""
+
+
 
 
 class SignInFragment : Fragment() {
@@ -20,7 +30,6 @@ class SignInFragment : Fragment() {
     private lateinit var pass: EditText
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
-    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreateView(
@@ -39,8 +48,10 @@ class SignInFragment : Fragment() {
         signIn = view.findViewById(R.id.btnSignIn)
         createAccount = view.findViewById(R.id.btnCreateAccount)
         auth = FirebaseAuth.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
 
         val currentUser = auth.currentUser
+        firebaseUserId = currentUser!!.uid!!
         if(currentUser != null ){
             val action = SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
             findNavController().navigate(action)

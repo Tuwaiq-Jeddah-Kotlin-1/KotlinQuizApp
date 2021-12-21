@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_levelUpFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_levelUpFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -116,6 +119,12 @@
         <action
             android:id="@+id/action_tryAgainFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_tryAgainFragment_to_startLevelFragment"
+            app:destination="@id/startLevelFragment" />
+        <argument
+            android:name="levArg"
+            app:argType="com.example.kotlinquizapp.Network.Quiz" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"

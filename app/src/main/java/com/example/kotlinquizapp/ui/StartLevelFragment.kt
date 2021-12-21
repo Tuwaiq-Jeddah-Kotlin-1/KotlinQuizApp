@@ -17,6 +17,7 @@ class StartLevelFragment : Fragment() {
     private lateinit var startBtn: Button
     private lateinit var backToMain: Button
     private lateinit var levelNo: TextView
+
     val arg: StartLevelFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -37,6 +38,9 @@ class StartLevelFragment : Fragment() {
         levelNo.text = arg.levelArg.level.toString()
 
         startBtn.setOnClickListener {
+
+            firebaseFirestore.collection("users").document(firebaseUserId)
+                .update("currentLevel",arg.levelArg.level.toString())
 
             val action = StartLevelFragmentDirections.actionStartLevelFragmentToQuestionsFragment(arg.levelArg,arg.levelArg.level.toString())
             findNavController().navigate(action)

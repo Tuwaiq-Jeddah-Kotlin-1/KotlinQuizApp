@@ -36,6 +36,8 @@ class ProfileFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var profileImage: String
     private var firebaseUserId: String = ""
+    private lateinit var tvLevel: TextView
+    private lateinit var tvTotalScore: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +61,8 @@ class ProfileFragment : Fragment() {
         signOut = view.findViewById(R.id.btnSignOut)
         username = view.findViewById(R.id.tvPlayerName)
         editProfile = view.findViewById(R.id.btnEditProfile)
+        tvLevel = view.findViewById(R.id.tvLevel)
+        tvTotalScore = view.findViewById(R.id.tvTotalScore)
         retrieveData()
 
         editProfile.setOnClickListener {
@@ -89,6 +93,9 @@ class ProfileFragment : Fragment() {
                         username.text = value!!.getString("user_name")
                         profileImage = value.getString("profile_image").toString()
                         view.ivProfile.load(profileImage)
+                        tvLevel.text = value.get("currentLevel").toString()
+                        //value.get
+                        tvTotalScore.text = value.get("score").toString()
                     }
                 }
 

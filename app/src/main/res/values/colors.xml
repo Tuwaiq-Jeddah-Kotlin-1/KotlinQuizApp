@@ -14,4 +14,12 @@
     <color name="correct">#8BC34A</color>
 
 
+        <color name="backgroundColor">#ffffff</color>
+        <color name="textColor">#5065A8</color>
+        <color name="tintColor">#263A78</color>
+        <color name="buttonColor">#F2EEE4</color>
+
+
+
+
 </resources>

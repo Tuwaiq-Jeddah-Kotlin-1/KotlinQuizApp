@@ -21,7 +21,7 @@ class QuestionsFragment : Fragment() {
 //    private lateinit var optionThree: Button
 //    private lateinit var optionFour: Button
     private lateinit var cancel: ImageView
-    private lateinit var nextQuestion: Button
+    private lateinit var submitBtn: Button
 
     private lateinit var pager2: ViewPager2
     private lateinit var tvScore: TextView
@@ -43,14 +43,27 @@ class QuestionsFragment : Fragment() {
 
 
         pager2 = view.findViewById(R.id.viewPager)
+       // submitBtn = view.findViewById(R.id.btnSubmit)
+
+
         //tvScore = view.findViewById(R.id.tvScore)
         //tvLevel = view.findViewById(R.id.tvLevel)
 
 
-
-
-
-        pager2.adapter = ViewPagerAdapter(arg.questionsArg.questions, arg.argLevel)
+        pager2.adapter = ViewPagerAdapter(arg.questionsArg,arg.questionsArg.questions, arg.argLevel)
+//        pager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                if (position == 2){
+//                    submitBtn.visibility = View.VISIBLE
+//                }else {
+//                    submitBtn.visibility = View.GONE
+//
+//                }
+//            }
+//        })
+    }
+}
 
 
 
@@ -74,7 +87,6 @@ class QuestionsFragment : Fragment() {
 
 
 
-    }
 
 
-}
+

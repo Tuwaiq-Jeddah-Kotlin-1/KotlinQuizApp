@@ -2,35 +2,90 @@ package com.example.kotlinquizapp
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.example.kotlinquizapp.Network.Question
 import com.example.kotlinquizapp.Network.Quiz
+import com.example.kotlinquizapp.ui.QuestionsFragmentDirections
+import com.example.kotlinquizapp.ui.firebaseFirestore
+import com.example.kotlinquizapp.ui.firebaseUserId
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
-class ViewPagerAdapter(
-    var data: List<Question>
-, var level: String,
-    //var score: Int
+class ViewPagerAdapter(var arg: Quiz,var data: List<Question> , var level: String): RecyclerView.Adapter<Pager2ViewHolder>() {
 
-): RecyclerView.Adapter<Pager2ViewHolder>() {
+      var  score: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Pager2ViewHolder {
+
+
         val v = LayoutInflater.from(parent.context).inflate(R.layout.pager_item, parent, false)
+
+
+
+
+        firebaseFirestore.collection("users")
+            .document(firebaseUserId)
+            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
+                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null ) {
+                        Log.e(
+                            "TAG",
+                            "Firestore error in retrieving data" + error.message.toString()
+                        )
+                        return
+                    } else {
+                        score = value!!.get("score").toString().toInt()
+                    }
+                }
+
+            })
+
+
         return Pager2ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
         var quizQuestion = data[position]
 
+        Log.e("adapter", "$position")
+
         holder.question.text = quizQuestion.question
         holder.tvLevel.text = level
+        holder.tvScore.text = score.toString()
 
-        //holder.tvScore.text = score.toString()
+        holder.submitBtn.visibility = View.GONE
+
+        if (position ==  getItemCount() - 1) {
+            holder.submitBtn.visibility = View.VISIBLE
+
+            //fun
+            val pass = (score/getItemCount())*100
+
+            Log.e("AdapterPager", "$pass")
+            holder.submitBtn.setOnClickListener {
+                if (pass >= 50) {
+                    val action = QuestionsFragmentDirections.actionQuestionsFragmentToLevelUpFragment()
+                    it.findNavController().navigate(action)
+                } else {
+                    val action = QuestionsFragmentDirections.actionQuestionsFragmentToTryAgainFragment(arg)
+                    it.findNavController().navigate(action)
+                }
+            }
+        }
+
+
 
 
         val list = listOf(
@@ -70,12 +125,13 @@ class ViewPagerAdapter(
             }
         }
 
-    fun checkAnswers(btn:Button,listOfbtn: List<Button>, answer: String,
-                    // score: Int
-    ){
+    fun checkAnswers(btn:Button,listOfbtn: List<Button>, answer: String){
+
         if (btn.text == answer) {
             btn.setBackgroundColor(Color.GREEN)
-//
+            score = score+1
+            firebaseFirestore.collection("users").document(firebaseUserId)
+                .update("score",score.toString())
         } else {
             btn.setBackgroundColor(Color.RED)
 
@@ -91,6 +147,7 @@ class ViewPagerAdapter(
 }
 
 class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
     val question: TextView = itemView.findViewById(R.id.tvQuestion)
     val option1: Button = itemView.findViewById(R.id.btnOption1)
     val option2: Button = itemView.findViewById(R.id.btnOption2)
@@ -98,5 +155,6 @@ class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val option4: Button = itemView.findViewById(R.id.btnOption4)
     val tvLevel: TextView = itemView.findViewById(R.id.tvLevel)
     val tvScore: TextView = itemView.findViewById(R.id.tvScore)
+    val submitBtn: Button = itemView.findViewById(R.id.btnSubmit)
 
 }

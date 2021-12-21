@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.kotlinquizapp.Data.User
 
+
+
 class SignUpFragment : Fragment() {
 
     private lateinit var email: EditText
@@ -26,10 +28,6 @@ class SignUpFragment : Fragment() {
     private lateinit var username: EditText
     private lateinit var signUp: Button
     private lateinit var backToSignIn: ImageView
-    private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var ref: DatabaseReference
-    private lateinit var auth: FirebaseAuth
-    private var firebaseUserId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +67,11 @@ class SignUpFragment : Fragment() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
 
-                                firebaseUserId = auth.currentUser!!.uid!!
+
                                 ref = FirebaseDatabase.getInstance().reference.child("Users")
                                     .child(firebaseUserId)
                                 val user = User(firebaseUserId,username.text.toString(),email.text.toString())
-                                firebaseFirestore = FirebaseFirestore.getInstance()
+
                                 firebaseFirestore.collection("users").document(firebaseUserId)
                                     .set(user)
                                     .addOnSuccessListener {
