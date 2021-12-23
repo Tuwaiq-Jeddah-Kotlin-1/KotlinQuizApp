@@ -15,19 +15,17 @@ import androidx.core.app.ActivityCompat.recreate
 import com.example.kotlinquizapp.R
 import java.util.*
 import android.os.Build
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.MainActivity
-
-
-
 
 
 class SettingsFragment : Fragment() {
 
     private lateinit var share: Button
     private lateinit var language: Button
-    private lateinit var mode: Button
     private lateinit var locale: Locale
 
 
@@ -37,6 +35,7 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,8 +43,9 @@ class SettingsFragment : Fragment() {
 
         share = view.findViewById(R.id.btnShare)
         language = view.findViewById(R.id.btnLanguage)
-        mode = view.findViewById(R.id.btnDarkMode)
+
         loadLocale()
+        //refreshCurrentFragment()
 
         val url = "Application Link"
 
@@ -58,23 +58,22 @@ class SettingsFragment : Fragment() {
 
         language.setOnClickListener {
             showLangDialog()
-            val activity = view.context as AppCompatActivity
-            (activity as MainActivity).reload()
+//            val activity = view.context as AppCompatActivity
+//            (activity as MainActivity).reload()
 
         }
 
-        mode.setOnClickListener {
-            showModeDialog()
-        }
     }
 
 
 
     fun showLangDialog() {
         val listLang = arrayOf("عربي", "English")
-
         val mBuilder = AlertDialog.Builder(context)
         mBuilder.setTitle("Choose Language")
+        mBuilder.setPositiveButton("ok") { _,_ ->
+            refreshCurrentFragment()
+        }
         mBuilder.setSingleChoiceItems(listLang, -1) { dialog, which ->
 
             if (which == 0) {
@@ -82,8 +81,6 @@ class SettingsFragment : Fragment() {
             } else {
                 setLocale("en")
             }
-            dialog.dismiss()
-
         }
         val mDialog = mBuilder.create()
         mDialog.show()
@@ -97,43 +94,27 @@ class SettingsFragment : Fragment() {
         config.locale = locale
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
 
-
-        //val transaction: FragmentTransaction =
-        //activity?.recreate()
-
-
-
-
-//        var refresh = Intent(this, SettingsFragment::class.java)
-//        startActivity(refresh)
-
-        val editor = requireContext().getSharedPreferences("Settings", MODE_PRIVATE).edit()
-        editor.putString("My_Lang", lang)
-        editor.apply()
+        var sharedPreferences = requireContext().getSharedPreferences("My_Pref", MODE_PRIVATE)
+        var editor = sharedPreferences.edit()
+        editor.putString("MyLang", lang)
+        editor.commit()
     }
 
     private fun loadLocale(){
-        val sharedPreferences = requireContext().getSharedPreferences("Settings", MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", "")
-        setLocale(language!!)
+        var sharedPreferences = requireContext().getSharedPreferences("My_Pref", MODE_PRIVATE)
+        var language = sharedPreferences.getString("MyLang", "")
+        setLocale(language.toString())
+        //refreshCurrentFragment()
     }
 
-    fun showModeDialog(){
-        val listMode = arrayOf("Dark Mode","Light Mode")
 
-        val mBuilder = AlertDialog.Builder(context)
-        mBuilder.setTitle("Choose Mode")
-        mBuilder.setSingleChoiceItems(listMode,-1){ dialog, which ->
-            if ( which == 0) {
-                //setTheme()
-            } else {
-                //setTheme()
-            }
-            dialog.dismiss()
-        }
 
-        val mDialog = mBuilder.create()
-        mDialog.show()
+    private fun refreshCurrentFragment(){
+        val id = findNavController().currentDestination?.id
+        findNavController().navigateUp()
+        findNavController().navigate(id!!)
+
+        Log.e("Access","$id")
     }
 
 }

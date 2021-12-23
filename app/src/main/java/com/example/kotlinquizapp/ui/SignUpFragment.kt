@@ -26,10 +26,6 @@ class SignUpFragment : Fragment() {
     private lateinit var username: EditText
     private lateinit var signUp: Button
     private lateinit var backToSignIn: ImageView
-    private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var ref: DatabaseReference
-    private lateinit var auth: FirebaseAuth
-    private var firebaseUserId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +49,6 @@ class SignUpFragment : Fragment() {
         username = view.findViewById(R.id.etUsernameSignUp)
         signUp = view.findViewById(R.id.btnSignUp)
         backToSignIn = view.findViewById(R.id.ivBackToSignIn)
-        auth = FirebaseAuth.getInstance()
 
         backToSignIn.setOnClickListener {
             val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
@@ -69,12 +64,12 @@ class SignUpFragment : Fragment() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
 
-                                firebaseUserId = auth.currentUser!!.uid!!
+
                                 ref = FirebaseDatabase.getInstance().reference.child("Users")
-                                    .child(firebaseUserId)
-                                val user = User(firebaseUserId,username.text.toString(),email.text.toString())
-                                firebaseFirestore = FirebaseFirestore.getInstance()
-                                firebaseFirestore.collection("users").document(firebaseUserId)
+                                    .child(auth.currentUser!!.uid)
+                                val user = User(auth.currentUser!!.uid,username.text.toString(),email.text.toString())
+
+                                firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
                                     .set(user)
                                     .addOnSuccessListener {
                                         Log.d("TAG", "DocumentSnapshot successfully written!")

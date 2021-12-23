@@ -6,17 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.SignUpFragment">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="365dp"
-        android:background="@drawable/circle_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -24,7 +13,6 @@
         android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-black"
         android:text="KQ"
-        android:textColor="@color/myColor1"
         android:textSize="150sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -32,10 +20,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="K o t l i n  Q u i z"
-        android:textColor="@color/myColor1"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,14 +33,14 @@
         android:id="@+id/etEmailSignUp"
         android:layout_width="292dp"
         android:layout_height="44dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="52dp"
         android:hint="@string/email"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <EditText
         android:id="@+id/etUsernameSignUp"
@@ -100,11 +88,9 @@
         android:layout_width="317dp"
         android:layout_height="49dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/custom_button1"
         android:text="@string/sign_up"
         android:textAllCaps="false"
-        android:textColor="@color/myColor2"
-        android:textSize="23sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />

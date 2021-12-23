@@ -1,6 +1,7 @@
 package com.example.kotlinquizapp.ui
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +15,7 @@ import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
@@ -26,9 +28,10 @@ class EditProfileFragment : Fragment() {
     private lateinit var saveChanges: Button
     private lateinit var deleteAccount: Button
     lateinit var filePath: Uri
-    private lateinit var auth: FirebaseAuth
-    private var firebaseUserId: String = ""
-    private lateinit var firebaseFirestore: FirebaseFirestore
+
+
+
+    private lateinit var firebaseuser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +50,8 @@ class EditProfileFragment : Fragment() {
         saveChanges = view.findViewById(R.id.btnSaveChanges)
         deleteAccount = view.findViewById(R.id.btnDeleteAccount)
 
-        auth = FirebaseAuth.getInstance()
+        firebaseuser = auth.getCurrentUser()!!
+
 
 
         //update username
@@ -61,8 +65,8 @@ class EditProfileFragment : Fragment() {
         saveChanges.setOnClickListener {
             uploadPhoto()
 
-            firebaseUserId=auth.currentUser!!.uid
-            firebaseFirestore = FirebaseFirestore.getInstance()
+
+
 
             if(newUsername.text.toString()!= ""){
                 firebaseFirestore.collection("users").document(firebaseUserId)
@@ -76,7 +80,7 @@ class EditProfileFragment : Fragment() {
         //delete account
 
         deleteAccount.setOnClickListener {
-
+            showDeleteDialog()
         }
     }
 
@@ -106,6 +110,30 @@ class EditProfileFragment : Fragment() {
                     Toast.makeText(context,p0.message,Toast.LENGTH_LONG).show()
                 }
         }
+    }
+
+    private fun showDeleteDialog(){
+        val mBuilder = AlertDialog.Builder(context)
+        mBuilder.setTitle("Delete Account")
+        mBuilder.setMessage("Are you sure you want to delete your account?")
+        mBuilder.setPositiveButton("Yes") {_,_ ->
+            firebaseuser.delete()
+
+           firebaseFirestore.collection("users").document(firebaseuser.uid).delete()
+
+            val action = EditProfileFragmentDirections.actionEditProfileFragmentToSignUpFragment()
+            findNavController().navigate(action)
+
+
+        }
+
+        mBuilder.setNegativeButton("Cancel") { _,_ ->
+
+        }
+        val mDialog = mBuilder.create()
+        mDialog.show()
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

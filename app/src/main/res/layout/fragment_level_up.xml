@@ -7,16 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LevelUpFragment">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="320dp"
-        android:background="@drawable/circle_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageView
         android:id="@+id/ivLevelUp"
@@ -35,7 +26,6 @@
         android:layout_height="wrap_content"
         android:text="@string/level_up"
         android:textSize="50sp"
-        android:textColor="@color/myColor1"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,13 +37,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="416dp"
         android:text="@string/your_score"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -69,12 +59,10 @@
         android:id="@+id/btnNext"
         android:layout_width="317dp"
         android:layout_height="49dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/custom_button1"
+        android:layout_marginTop="20dp"
         android:text="@string/next"
         android:textAllCaps="false"
-        android:textColor="@color/myColor2"
-        android:textSize="23sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -84,11 +72,9 @@
         android:layout_width="317dp"
         android:layout_height="49dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/custom_button2"
         android:text="@string/main_menu"
         android:textAllCaps="false"
-        android:textColor="@color/myColor1"
-        android:textSize="23sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNext" />

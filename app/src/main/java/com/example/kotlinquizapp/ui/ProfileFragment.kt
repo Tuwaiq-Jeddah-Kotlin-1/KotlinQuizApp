@@ -2,7 +2,6 @@ package com.example.kotlinquizapp.ui
 
 import android.content.Context.MODE_PRIVATE
 import android.graphics.BitmapFactory
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,14 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,11 +28,10 @@ class ProfileFragment : Fragment() {
 
     private lateinit var signOut: Button
     private lateinit var editProfile: Button
-    private lateinit var auth: FirebaseAuth
     private lateinit var username: TextView
-    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var profileImage: String
-    private var firebaseUserId: String = ""
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +55,7 @@ class ProfileFragment : Fragment() {
         signOut = view.findViewById(R.id.btnSignOut)
         username = view.findViewById(R.id.tvPlayerName)
         editProfile = view.findViewById(R.id.btnEditProfile)
-        retrieveData()
+        //retrieveData()
 
         editProfile.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment()
@@ -72,9 +68,7 @@ class ProfileFragment : Fragment() {
             val action = ProfileFragmentDirections.actionProfileFragmentToSignInFragment()
             findNavController().navigate(action)
         }
-        auth = FirebaseAuth.getInstance()
-        firebaseUserId = auth.currentUser!!.uid
-        firebaseFirestore = FirebaseFirestore.getInstance()
+
         firebaseFirestore.collection("users")
             .document(firebaseUserId)
             .addSnapshotListener(object: EventListener<DocumentSnapshot> {
@@ -84,11 +78,18 @@ class ProfileFragment : Fragment() {
                             "TAG",
                             "Firestore error in retrieving data" + error.message.toString()
                         )
-                        return
                     } else {
-                        username.text = value!!.getString("user_name")
-                        profileImage = value.getString("profile_image").toString()
-                        view.ivProfile.load(profileImage)
+                        value!!.apply {
+                            username.text = value.getString("user_name")
+                            Log.e("Profile", "${value}")
+                            Log.e("Profile", "${value.getString("user_name")}")
+                            //profileImage = value.getString("profile_image").toString()
+                            //view.ivProfile.load(profileImage)
+//                        tvLevel.text = value.get("currentLevel").toString()
+                            //value.get
+                            //tvTotalScore.text = value.getString("score")
+                        }
+
                     }
                 }
 

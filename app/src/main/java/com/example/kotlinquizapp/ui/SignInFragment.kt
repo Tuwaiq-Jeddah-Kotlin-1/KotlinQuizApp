@@ -11,7 +11,13 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
 
+var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+lateinit var ref: DatabaseReference
+val auth : FirebaseAuth = FirebaseAuth.getInstance()
+var firebaseUserId: String = auth.currentUser!!.uid
 
 class SignInFragment : Fragment() {
 
@@ -20,7 +26,7 @@ class SignInFragment : Fragment() {
     private lateinit var pass: EditText
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
-    private lateinit var auth: FirebaseAuth
+
 
 
     override fun onCreateView(
@@ -38,7 +44,7 @@ class SignInFragment : Fragment() {
         pass = view.findViewById(R.id.etPassword)
         signIn = view.findViewById(R.id.btnSignIn)
         createAccount = view.findViewById(R.id.btnCreateAccount)
-        auth = FirebaseAuth.getInstance()
+
 
         val currentUser = auth.currentUser
         if(currentUser != null ){
