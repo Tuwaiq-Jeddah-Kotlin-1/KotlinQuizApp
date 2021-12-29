@@ -55,6 +55,7 @@ class SignInFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+
         signIn.setOnClickListener {
             if (checkEmpty(arrayListOf(email, pass))) {
 

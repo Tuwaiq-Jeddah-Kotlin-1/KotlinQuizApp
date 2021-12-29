@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,6 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
     private lateinit var prevScore: String
     private lateinit var totalScore: String
     private lateinit var currentLevel : String
-
     var score = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Pager2ViewHolder {
@@ -46,8 +46,9 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
         var quizQuestion = data[position]
 
         holder.question.text = quizQuestion.question
-        holder.tvLevel.text = level
-        holder.tvScore.text = score.toString()
+        holder.tvLevel.text = ("Level:" + level)
+        holder.tvScore.text = ("Score:" + score.toString())
+
 
         holder.submitBtn.visibility = View.GONE
 
@@ -168,8 +169,6 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
                 Log.e(TAG, "updateScore: $score $totalScore", )
                 //Log.e(TAG, "total: $totalScore", )
             }
-
-
 
         }
 

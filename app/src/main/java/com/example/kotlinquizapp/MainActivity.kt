@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     }
 
         private fun myWorkerManger() {
+
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)

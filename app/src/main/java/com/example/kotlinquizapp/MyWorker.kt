@@ -45,6 +45,7 @@ class MyWorker (context: Context, workerParameters: WorkerParameters):
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelName = "Channel name"
             val channelDescription = "Channel Description"
@@ -58,6 +59,7 @@ class MyWorker (context: Context, workerParameters: WorkerParameters):
             ) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
         with(NotificationManagerCompat.from(applicationContext)) {
             notify(NOTIFICATION_ID, notification.build())
         }

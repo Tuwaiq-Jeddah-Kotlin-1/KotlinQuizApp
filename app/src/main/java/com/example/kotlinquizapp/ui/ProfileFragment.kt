@@ -30,6 +30,7 @@ import java.io.File
 
 class ProfileFragment : Fragment() {
 
+
     private lateinit var signOut: Button
     private lateinit var editProfile: Button
     private lateinit var username: TextView

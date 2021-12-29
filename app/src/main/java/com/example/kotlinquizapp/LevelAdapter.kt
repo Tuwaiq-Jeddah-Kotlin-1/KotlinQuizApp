@@ -20,35 +20,56 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 
 class LevelAdapter(var data: List<Quiz>): RecyclerView.Adapter<LevelViewHolder>() {
 
+
     var firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth : FirebaseAuth = FirebaseAuth.getInstance()
     var firebaseUserId: String = auth.currentUser!!.uid
-   //private lateinit var nextLevel : String
+     var nextLevel : String =""
+    var xxxx :String =""
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LevelViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.level_item, parent, false)
 
-        //getNextLevel()
-        //v.isEnabled =false
+        getNextLevel()
+        v.isEnabled =false
         return LevelViewHolder(v)
+    }
+    fun getNextLevel(){
+
+        firebaseFirestore.collection("users").document(firebaseUserId)
+            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
+                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null ) {
+                        Log.e(
+                            "TAG",
+                            "Firestore error in retrieving data" + error.message.toString()
+                        )
+                    } else {
+                        value!!.apply {
+                            nextLevel = value.get("nextLevel").toString()
+                            Log.e("TAG", "inner: $nextLevel", )
+                            xxxx=nextLevel
+                        }
+                    }
+                }
+            })
+        Log.e("TAG", "outer: $nextLevel", )
     }
 
     override fun onBindViewHolder(holder: LevelViewHolder, position: Int) {
-
+        getNextLevel()
        //checkLevel(holder)
         var quizlevel = data[position]
 
+        Log.e("TAG", "bind: $xxxx", )
         holder.tvLevel.text = quizlevel.level.toString()
 
-        //holder.tvLevel.isEnabled = false
-        //holder[0].itemView.isEnabled = false
-        // holder.itemView[0].isEnabled = false
-        //holder.position[0].itemView.isEnabled = false
-        //holder.get(position[0]).itemView.isEnabled= false
+//        if ( quizlevel.level.toInt() <= nextLevel.toInt() ) {
+//            holder.itemView.isEnabled =  true
+//        }
 
-        //Log.e("TAG", "onBindViewHolder: ${holder.itemView.getLayoutPosition()}" )
 
         if (holder.itemView.isEnabled) {
             holder.itemView.setOnClickListener {
@@ -61,42 +82,11 @@ class LevelAdapter(var data: List<Quiz>): RecyclerView.Adapter<LevelViewHolder>(
         }
     }
 
-        override fun getItemCount(): Int {
+    override fun getItemCount(): Int {
             return data.size
         }
 
-//    fun getNextLevel(){
-//
-//        firebaseFirestore.collection("users").document(firebaseUserId)
-//            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
-//                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-//                    if (error != null ) {
-//                        Log.e(
-//                            "TAG",
-//                            "Firestore error in retrieving data" + error.message.toString()
-//                        )
-//                    } else {
-//                        value!!.apply {
-//                            nextLevel = value.get("nextLevel").toString()
-//                        }
-//                    }
-//                }
-//            })
-//    }
-
-//    fun checkLevel ( holder: LevelViewHolder) {
-//
-//        //holder.itemView.isEnabled = true
-//
-//        when (nextLevel) {
-//            "1"  -> holder.itemView.isEnabled = true
-//            "2" -> holder.itemView.isEnabled = true
-//            "3" -> holder.itemView.isEnabled = true
-//        }
-//    }
     }
-
-
 
     class LevelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvLevel: TextView = itemView.findViewById(R.id.level)

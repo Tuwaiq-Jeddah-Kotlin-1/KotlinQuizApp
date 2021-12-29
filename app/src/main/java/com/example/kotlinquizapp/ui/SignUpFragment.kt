@@ -59,6 +59,7 @@ class SignUpFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+
         signUp.setOnClickListener {
             if (checkEmpty(arrayListOf(username, email, pass))) {
                 if (confirm.text.toString() != pass.text.toString()) {

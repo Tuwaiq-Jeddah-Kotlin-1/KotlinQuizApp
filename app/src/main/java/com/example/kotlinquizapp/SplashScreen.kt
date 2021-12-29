@@ -11,8 +11,8 @@ import android.widget.TextView
 
 class SplashScreen : AppCompatActivity() {
 
-    private lateinit var topAnim: Animation
-    private lateinit var bottomAnim: Animation
+     private lateinit var topAnim: Animation
+     private lateinit var bottomAnim: Animation
 
      private lateinit var tvKQ: TextView
      private lateinit var tvKotlinQuiz: TextView

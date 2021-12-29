@@ -24,6 +24,7 @@ class LevelUpFragment : Fragment() {
 
     private lateinit var yourScore: TextView
 
+
 //    var firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 //    val auth : FirebaseAuth = FirebaseAuth.getInstance()
 //    var firebaseUserId: String = auth.currentUser!!.uid

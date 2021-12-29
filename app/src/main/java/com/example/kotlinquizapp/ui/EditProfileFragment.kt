@@ -34,9 +34,6 @@ class EditProfileFragment : Fragment() {
     val auth : FirebaseAuth = FirebaseAuth.getInstance()
     var firebaseUserId: String = auth.currentUser!!.uid
 
-
-
-
     private lateinit var firebaseuser: FirebaseUser
 
     override fun onCreateView(
@@ -58,8 +55,6 @@ class EditProfileFragment : Fragment() {
 
         firebaseuser = auth.getCurrentUser()!!
 
-
-
         //update username
         val new = newUsername.text.toString()
 
@@ -70,9 +65,6 @@ class EditProfileFragment : Fragment() {
 
         saveChanges.setOnClickListener {
             uploadPhoto()
-
-
-
 
             if(newUsername.text.toString()!= ""){
                 firebaseFirestore.collection("users").document(firebaseUserId)
@@ -129,8 +121,6 @@ class EditProfileFragment : Fragment() {
 
             val action = EditProfileFragmentDirections.actionEditProfileFragmentToSignUpFragment()
             findNavController().navigate(action)
-
-
         }
 
         mBuilder.setNegativeButton("Cancel") { _,_ ->
