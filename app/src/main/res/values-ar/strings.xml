@@ -30,4 +30,6 @@
     <string name="your_score">درجتك</string>
     <string name="try_again">حاول مجددًا</string>
     <string name="main_menu">القائمة الرئيسية</string>
+    <string name="Choose_language">اختر اللغة</string>
+    <string name="ok">حسنًا</string>
 </resources>

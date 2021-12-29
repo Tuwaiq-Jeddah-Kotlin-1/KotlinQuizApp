@@ -26,7 +26,6 @@ class SettingsFragment : Fragment() {
 
     private lateinit var share: Button
     private lateinit var language: Button
-    private lateinit var locale: Locale
 
 
     override fun onCreateView(
@@ -44,8 +43,7 @@ class SettingsFragment : Fragment() {
         share = view.findViewById(R.id.btnShare)
         language = view.findViewById(R.id.btnLanguage)
 
-        loadLocale()
-        //refreshCurrentFragment()
+
 
         val url = "Application Link"
 
@@ -58,20 +56,15 @@ class SettingsFragment : Fragment() {
 
         language.setOnClickListener {
             showLangDialog()
-//            val activity = view.context as AppCompatActivity
-//            (activity as MainActivity).reload()
-
         }
 
     }
 
-
-
     fun showLangDialog() {
         val listLang = arrayOf("عربي", "English")
         val mBuilder = AlertDialog.Builder(context)
-        mBuilder.setTitle("Choose Language")
-        mBuilder.setPositiveButton("ok") { _,_ ->
+        mBuilder.setTitle(getString(R.string.Choose_language))
+        mBuilder.setPositiveButton(getString(R.string.ok)) { _, _ ->
             refreshCurrentFragment()
         }
         mBuilder.setSingleChoiceItems(listLang, -1) { dialog, which ->
@@ -94,17 +87,19 @@ class SettingsFragment : Fragment() {
         config.locale = locale
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
 
-        var sharedPreferences = requireContext().getSharedPreferences("My_Pref", MODE_PRIVATE)
-        var editor = sharedPreferences.edit()
-        editor.putString("MyLang", lang)
+        val myPref = requireContext().getSharedPreferences("myPref", MODE_PRIVATE)
+        val editor = myPref.edit()
+
+        editor.putString("MyLang",lang)
         editor.commit()
+
     }
 
-    private fun loadLocale(){
-        var sharedPreferences = requireContext().getSharedPreferences("My_Pref", MODE_PRIVATE)
+    fun loadLocale(){
+        var sharedPreferences = requireContext().getSharedPreferences("myPref", MODE_PRIVATE)
         var language = sharedPreferences.getString("MyLang", "")
-        setLocale(language.toString())
-        //refreshCurrentFragment()
+        setLocale(language!!)
+
     }
 
 
@@ -117,4 +112,7 @@ class SettingsFragment : Fragment() {
         Log.e("Access","$id")
     }
 
+
+
 }
+

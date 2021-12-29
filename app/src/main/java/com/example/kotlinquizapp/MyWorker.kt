@@ -39,7 +39,7 @@ class MyWorker (context: Context, workerParameters: WorkerParameters):
             applicationContext,
             CHANNEL_ID
         )
-            .setSmallIcon(R.drawable.ic_baseline_star_24)
+            .setSmallIcon(R.drawable.logo)
             .setContentTitle("Kotlin Quiz")
             .setContentText("Welcome to Kotlin Quiz, Have Fun.")
             .setPriority(NotificationCompat.PRIORITY_MAX)

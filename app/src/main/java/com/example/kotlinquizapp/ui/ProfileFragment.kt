@@ -13,14 +13,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.example.kotlinquizapp.Data.User
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import org.w3c.dom.Text
 import java.io.File
 
 
@@ -30,6 +34,15 @@ class ProfileFragment : Fragment() {
     private lateinit var editProfile: Button
     private lateinit var username: TextView
     private lateinit var profileImage: String
+
+    private lateinit var level: TextView
+    private lateinit var score: TextView
+
+    var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+    //lateinit var ref: DatabaseReference
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    var firebaseUserId: String = auth.currentUser!!.uid
+
 
 
 
@@ -55,6 +68,9 @@ class ProfileFragment : Fragment() {
         signOut = view.findViewById(R.id.btnSignOut)
         username = view.findViewById(R.id.tvPlayerName)
         editProfile = view.findViewById(R.id.btnEditProfile)
+        level = view.findViewById(R.id.tvLevel)
+        score = view.findViewById(R.id.tvTotalScore)
+        //profileImage = view.findViewById(R.id.ivProfile)
         //retrieveData()
 
         editProfile.setOnClickListener {
@@ -79,16 +95,23 @@ class ProfileFragment : Fragment() {
                             "Firestore error in retrieving data" + error.message.toString()
                         )
                     } else {
+//                        val user = value!!.toObject(User::class.java)
+//                        username.text = user!!.user_name
+
                         value!!.apply {
                             username.text = value.getString("user_name")
-                            Log.e("Profile", "${value}")
-                            Log.e("Profile", "${value.getString("user_name")}")
+                            level.text = value.get("currentLevel").toString()
+                            score.text = value.get("score").toString()
+                                // no profile image displayed
+                           // view.ivProfile.load(profileImage)
+
+
                             //profileImage = value.getString("profile_image").toString()
                             //view.ivProfile.load(profileImage)
-//                        tvLevel.text = value.get("currentLevel").toString()
+                            //tvLevel.text = value.get("currentLevel").toString()
                             //value.get
                             //tvTotalScore.text = value.getString("score")
-                        }
+                      }
 
                     }
                 }

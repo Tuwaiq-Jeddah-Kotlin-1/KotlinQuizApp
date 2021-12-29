@@ -14,19 +14,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 
-var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
-lateinit var ref: DatabaseReference
-val auth : FirebaseAuth = FirebaseAuth.getInstance()
-var firebaseUserId: String = auth.currentUser!!.uid
 
 class SignInFragment : Fragment() {
 
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
 
     private lateinit var email: EditText
     private lateinit var pass: EditText
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
-
 
 
     override fun onCreateView(
@@ -44,6 +40,8 @@ class SignInFragment : Fragment() {
         pass = view.findViewById(R.id.etPassword)
         signIn = view.findViewById(R.id.btnSignIn)
         createAccount = view.findViewById(R.id.btnCreateAccount)
+
+
 
 
         val currentUser = auth.currentUser

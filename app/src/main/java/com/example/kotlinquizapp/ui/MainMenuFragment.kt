@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinquizapp.Data.MainVM
 import com.example.kotlinquizapp.LevelAdapter
 import com.example.kotlinquizapp.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,6 +24,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 class MainMenuFragment : Fragment() {
 
     private lateinit var username: TextView
+    private lateinit var level: TextView
+
+    lateinit var firebaseFirestore: FirebaseFirestore
+     var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val firebaseUserId: String = auth.currentUser!!.uid
+
 
     private lateinit var recyclerView: RecyclerView
     override fun onCreateView(
@@ -36,12 +44,13 @@ class MainMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         username = view.findViewById(R.id.tvPlayerName)
+        level = view.findViewById(R.id.tvPlayerLevel)
         recyclerView = view.findViewById(R.id.rvLevel)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         firebaseFirestore = FirebaseFirestore.getInstance()
 
-        firebaseUserId = auth.currentUser!!.uid
+       // firebaseUserId = auth.currentUser!!.uid
 
         firebaseFirestore.collection("users")
             .document(firebaseUserId)
@@ -54,9 +63,11 @@ class MainMenuFragment : Fragment() {
                         )
                     } else {
                         username.text = value!!.getString("user_name")
+                        level.text = value!!.get("currentLevel").toString()
                     }
                 }
             })
+
         var vm = ViewModelProvider(this).get(MainVM::class.java)
 
         vm.fetchQuiz().observe(viewLifecycleOwner, {

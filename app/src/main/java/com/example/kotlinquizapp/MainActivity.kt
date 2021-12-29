@@ -1,5 +1,6 @@
 package com.example.kotlinquizapp
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import com.example.kotlinquizapp.ui.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -23,16 +25,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        var sharedPreferences = this.getSharedPreferences("myPref", MODE_PRIVATE)
+        var language = sharedPreferences.getString("MyLang", "")
+        language.let {
+            setLocale(language!!)
+        }
+
+
         bottomNav = findViewById(R.id.bottomNav)
         navController = findNavController(R.id.fragmentContainerView)
-
-        myWorkerManger()
-
-
 
         bottomNav.setupWithNavController(navController)
 
@@ -44,8 +49,30 @@ class MainActivity : AppCompatActivity() {
                 else -> bottomNav.visibility = View.VISIBLE
             }
         }
+
+        myWorkerManger()
+
     }
-    private fun myWorkerManger() {
+
+    fun setLocale(lang: String) {
+
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        this.resources.updateConfiguration(
+            config,
+           this.resources.displayMetrics
+        )
+
+        val myPref = this.getSharedPreferences("myPref", MODE_PRIVATE)
+        val editor = myPref.edit()
+
+        editor.putString("MyLang", lang)
+        editor.commit()
+    }
+
+        private fun myWorkerManger() {
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
@@ -53,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             .setRequiresBatteryNotLow(true)
             .build()
         val myRequest = PeriodicWorkRequest.Builder(
-            MyWorker::class.java,15, TimeUnit.MINUTES
+            MyWorker::class.java,15, TimeUnit.DAYS
         ).setConstraints(constraints)
             .build()
         WorkManager.getInstance(this)
@@ -64,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         val mRequest: WorkRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
         WorkManager.getInstance(this).enqueue(mRequest)
     }
-
 
 }
 

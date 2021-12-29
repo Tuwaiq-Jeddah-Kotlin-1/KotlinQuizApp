@@ -1,5 +1,6 @@
 package com.example.kotlinquizapp
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,40 +12,32 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinquizapp.Network.Question
 import com.example.kotlinquizapp.ui.QuestionsFragmentDirections
-import com.example.kotlinquizapp.ui.firebaseFirestore
-import com.example.kotlinquizapp.ui.firebaseUserId
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlin.math.log
 
 class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerView.Adapter<Pager2ViewHolder>() {
 
+    var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    var firebaseUserId: String = auth.currentUser!!.uid
+    private lateinit var prevScore: String
+    private lateinit var totalScore: String
+    private lateinit var currentLevel : String
 
-    var score: Int? = 0
-
+    var score = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Pager2ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.pager_item, parent, false)
                     Log.e("adapteeer","user id $firebaseUserId")
 
 
-        firebaseFirestore.collection("users")
-            .document(firebaseUserId)
-            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
-                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null ) {
-                        Log.e(
-                            "TAG",
-                            "Firestore error in retrieving data" + error.message.toString()
-                        )
-
-                    } else {
-                        score = value!!.getString("score")?.toInt()
-                        Log.e("scoreadapter","$score") }
-                }
-            })
+        getScore() // prev score
+        getScoreFromFirebase() // total
+        getCurrentLevelFromFirebase()
 
         return Pager2ViewHolder(v)
     }
@@ -58,20 +51,29 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
 
         holder.submitBtn.visibility = View.GONE
 
-        if (position==getItemCount()-1){
-            holder.submitBtn.visibility = View.VISIBLE
-            //val pass = (score/getItemCount())*100
-            val pass = 100
 
-            Log.e("AdapterPager", "$pass")
+        if ( position == getItemCount()-1 ){
+            holder.submitBtn.visibility = View.VISIBLE
+
+
+
             holder.submitBtn.setOnClickListener {
-                if (pass >= 50) {
-                    val action = QuestionsFragmentDirections.actionQuestionsFragmentToLevelUpFragment()
-                    it.findNavController().navigate(action)
-                } else {
-                    val action = QuestionsFragmentDirections.actionQuestionsFragmentToTryAgainFragment()
-                    it.findNavController().navigate(action)
+
+                //getScore()
+
+                val pass = (score?.toDouble()?.div(getItemCount()))?.times(100)
+                Log.e("AdapterPager", "$pass")
+                if (pass != null) {
+                    if (pass >= 50) {
+                        val action = QuestionsFragmentDirections.actionQuestionsFragmentToLevelUpFragment()
+                        it.findNavController().navigate(action)
+                    } else {
+                        val action = QuestionsFragmentDirections.actionQuestionsFragmentToTryAgainFragment()
+                        it.findNavController().navigate(action)
+                    }
                 }
+
+                updateScore()
             }
         }
 
@@ -95,40 +97,144 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
 
         holder.option1.setOnClickListener {
             checkAnswers(holder.option1, buttons, quizQuestion.correctAnswer)
-
-//                val drawble = holder.option1.background
-//                val wrapedDrawable = DrawableCompat.wrap(drawble)
-//                DrawableCompat.setTint(wrapedDrawable, Color.GREEN)
         }
 
         holder.option2.setOnClickListener {
             checkAnswers(holder.option2,buttons, quizQuestion.correctAnswer)
         }
+
         holder.option3.setOnClickListener {
             checkAnswers(holder.option3,buttons, quizQuestion.correctAnswer)
         }
-            holder.option4.setOnClickListener {
+
+        holder.option4.setOnClickListener {
                 checkAnswers(holder.option4,buttons, quizQuestion.correctAnswer)
             }
+
         }
 
-    fun checkAnswers(btn:Button,listOfbtn: List<Button>, answer: String,
-                    // score: Int
-    ){
+    fun getScore(){
+
+        firebaseFirestore.collection("users").document(firebaseUserId)
+            .collection("scoreLevel")
+            .document("Levels").addSnapshotListener(object: EventListener<DocumentSnapshot> {
+                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null ) {
+                        Log.e(
+                            "TAG",
+                            "Firestore error in retrieving data" + error.message.toString()
+                        )
+                    } else {
+
+                        value!!.apply {
+                           prevScore =  value.get("$level").toString()
+                            Log.e(TAG, "onEvent: $prevScore $level", )
+                        }
+
+                    }
+                }
+
+            })
+    }
+
+    fun updateScore() {
+
+        getScoreFromFirebase()
+        getCurrentLevelFromFirebase()
+
+        Log.e(TAG, "getScoreFromFirebase: $totalScore", )
+//        firebaseFirestore.collection("users").document(firebaseUserId)
+//            .update("score", "6" )
+
+        if (prevScore.toInt() < score) {
+            if ( prevScore.toInt() == 0 ) {
+                firebaseFirestore.collection("users").document(firebaseUserId)
+                    .collection("scoreLevel").document("Levels")
+                    .update("$level", score)
+                score = totalScore.toInt() + score
+                firebaseFirestore.collection("users").document(firebaseUserId)
+                    .update("score", score.toString() )
+
+                Log.e(TAG, "updateScore: $score", )
+
+            } else {
+                firebaseFirestore.collection("users").document(firebaseUserId)
+                    .collection("scoreLevel").document("Levels")
+                    .update("$level", score)
+                score = totalScore.toInt() + score - prevScore.toInt()
+                firebaseFirestore.collection("users").document(firebaseUserId)
+                    .update("score", score.toString() )
+
+                Log.e(TAG, "updateScore: $score $totalScore", )
+                //Log.e(TAG, "total: $totalScore", )
+            }
+
+
+
+        }
+
+        if ( currentLevel < level ) {
+            firebaseFirestore.collection("users").document(firebaseUserId)
+                .update("currentLevel", level)
+
+        }
+    }
+
+    fun checkAnswers ( btn:Button,listOfbtn: List<Button>, answer: String ){
+
         if (btn.text == answer) {
             btn.setBackgroundColor(Color.GREEN)
             Log.e("score","$score")
-
             score = score?.plus(1)
-            firebaseFirestore.collection("users").document(firebaseUserId)
-                .update("score",score.toString())
         } else {
             btn.setBackgroundColor(Color.RED)
-
         }
         listOfbtn.forEach {
             it.isEnabled = false
         }
+
+    }
+
+    fun getScoreFromFirebase() {
+
+        firebaseFirestore.collection("users").document(firebaseUserId)
+            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
+                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null ) {
+                        Log.e(
+                            "TAG",
+                            "Firestore error in retrieving data" + error.message.toString()
+                        )
+                    } else {
+                        value!!.apply {
+                            totalScore = value.get("score").toString()
+
+                        }
+                    }
+                }
+            })
+
+    }
+
+    fun getCurrentLevelFromFirebase(){
+
+        firebaseFirestore.collection("users").document(firebaseUserId)
+            .addSnapshotListener(object: EventListener<DocumentSnapshot> {
+                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null) {
+                        Log.e(
+                            "TAG",
+                            "Firestore error in retrieving data" + error.message.toString()
+                        )
+                    } else {
+                        value!!.apply {
+                            currentLevel = value.get("currentLevel").toString()
+                            Log.e("TAG", "onEvent: $currentLevel" )
+                        }
+                    }
+                }
+            })
+
     }
 
     override fun getItemCount(): Int {
@@ -137,6 +243,7 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
 }
 
 class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
     val question: TextView = itemView.findViewById(R.id.tvQuestion)
     val option1: Button = itemView.findViewById(R.id.btnOption1)
     val option2: Button = itemView.findViewById(R.id.btnOption2)

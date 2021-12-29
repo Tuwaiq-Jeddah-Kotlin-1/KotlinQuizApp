@@ -33,6 +33,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'org.xerial:sqlite-jdbc:3.34.0'
+        }
+    }
+
+
+
 }
 
 dependencies {

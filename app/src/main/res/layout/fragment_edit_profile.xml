@@ -10,7 +10,7 @@
         android:id="@+id/ivProfilePhoto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="132dp"
         android:src="@drawable/ic_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,10 +20,12 @@
 
     <Button
         android:id="@+id/btnChoosePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="46dp"
         android:layout_marginTop="24dp"
+        android:background="@drawable/custom_button2"
         android:text="@string/choose_photo"
+        android:textColor="@color/myColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePhoto" />
@@ -40,8 +42,10 @@
 
     <Button
         android:id="@+id/btnSaveChanges"
+        android:background="@drawable/custom_button2"
         android:layout_width="317dp"
         android:layout_height="49dp"
+        android:textColor="@color/myColor1"
         android:layout_marginTop="32dp"
         android:text="@string/save_changes"
         android:textAllCaps="false"
@@ -52,8 +56,10 @@
 
     <Button
         android:id="@+id/btnDeleteAccount"
+        android:background="@drawable/custom_button1"
         android:layout_width="317dp"
         android:layout_height="49dp"
+        android:textColor="@color/myColor2"
         android:layout_marginTop="20dp"
         android:text="@string/delete_account"
         android:textAllCaps="false"

@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
@@ -28,6 +29,11 @@ class EditProfileFragment : Fragment() {
     private lateinit var saveChanges: Button
     private lateinit var deleteAccount: Button
     lateinit var filePath: Uri
+    var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+    lateinit var ref: DatabaseReference
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    var firebaseUserId: String = auth.currentUser!!.uid
+
 
 
 

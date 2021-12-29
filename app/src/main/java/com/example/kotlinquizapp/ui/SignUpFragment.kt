@@ -26,6 +26,10 @@ class SignUpFragment : Fragment() {
     private lateinit var username: EditText
     private lateinit var signUp: Button
     private lateinit var backToSignIn: ImageView
+    var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+    lateinit var ref: DatabaseReference
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +71,7 @@ class SignUpFragment : Fragment() {
 
                                 ref = FirebaseDatabase.getInstance().reference.child("Users")
                                     .child(auth.currentUser!!.uid)
+
                                 val user = User(auth.currentUser!!.uid,username.text.toString(),email.text.toString())
 
                                 firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
