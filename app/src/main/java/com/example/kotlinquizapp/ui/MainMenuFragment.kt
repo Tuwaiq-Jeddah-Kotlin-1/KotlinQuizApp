@@ -10,9 +10,8 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinquizapp.*
 import com.example.kotlinquizapp.Data.MainVM
-import com.example.kotlinquizapp.LevelAdapter
-import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -27,16 +26,19 @@ class MainMenuFragment : Fragment() {
     private lateinit var level: TextView
 
     lateinit var firebaseFirestore: FirebaseFirestore
-     var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val firebaseUserId: String = auth.currentUser!!.uid
 
-
+    private lateinit var nextLevel : String
     private lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
@@ -46,11 +48,11 @@ class MainMenuFragment : Fragment() {
         username = view.findViewById(R.id.tvPlayerName)
         level = view.findViewById(R.id.tvPlayerLevel)
         recyclerView = view.findViewById(R.id.rvLevel)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         firebaseFirestore = FirebaseFirestore.getInstance()
 
-       // firebaseUserId = auth.currentUser!!.uid
 
         firebaseFirestore.collection("users")
             .document(firebaseUserId)
@@ -64,16 +66,22 @@ class MainMenuFragment : Fragment() {
                     } else {
                         username.text = value!!.getString("user_name")
                         level.text = value!!.get("currentLevel").toString()
+                        nextLevel = value!!.get("nextLevel").toString()
+
                     }
                 }
             })
 
         var vm = ViewModelProvider(this).get(MainVM::class.java)
+//         if (nextLevel.isNullOrEmpty()) {
+             vm.fetchQuiz().observe(viewLifecycleOwner, {
+               //  Log.e("TAG", "nexxt: $nextLevel", )
+        recyclerView.adapter = LevelAdapter(it.quiz,nextLevel)
 
-        vm.fetchQuiz().observe(viewLifecycleOwner, {
-            recyclerView.adapter = LevelAdapter(it.quiz)
-        })
-    }
+    })
 }
+
+    }
+//}
 
 

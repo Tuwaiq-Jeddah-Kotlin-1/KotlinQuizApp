@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.example.kotlinquizapp.Data.ScoreLevel
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -74,9 +75,14 @@ class SignUpFragment : Fragment() {
                                     .child(auth.currentUser!!.uid)
 
                                 val user = User(auth.currentUser!!.uid,username.text.toString(),email.text.toString())
+                                val scoreLevel = ScoreLevel()
 
                                 firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
                                     .set(user)
+                                firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
+                                .collection("scoreLevel").document("Levels")
+                                    .set(scoreLevel)
+
                                     .addOnSuccessListener {
                                         Log.d("TAG", "DocumentSnapshot successfully written!")
                                     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
@@ -23,6 +24,7 @@ class SignInFragment : Fragment() {
     private lateinit var pass: EditText
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
+    private lateinit var forgetPassword: TextView
 
 
     override fun onCreateView(
@@ -40,6 +42,7 @@ class SignInFragment : Fragment() {
         pass = view.findViewById(R.id.etPassword)
         signIn = view.findViewById(R.id.btnSignIn)
         createAccount = view.findViewById(R.id.btnCreateAccount)
+        forgetPassword = view.findViewById(R.id.tvForgetPassword)
 
 
 
@@ -85,6 +88,11 @@ class SignInFragment : Fragment() {
                         }
                     }
             }
+        }
+
+        forgetPassword.setOnClickListener {
+            val action = SignInFragmentDirections.actionSignInFragmentToForgetPasswordFragment()
+            findNavController().navigate(action)
         }
     }
 

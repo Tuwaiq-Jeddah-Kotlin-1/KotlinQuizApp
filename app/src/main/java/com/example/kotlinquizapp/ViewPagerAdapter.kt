@@ -1,23 +1,30 @@
 package com.example.kotlinquizapp
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.graphics.Color
+import android.graphics.Color.GREEN
+import android.graphics.Color.RED
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinquizapp.Network.Question
+import com.example.kotlinquizapp.ui.QuestionsFragment
 import com.example.kotlinquizapp.ui.QuestionsFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlin.coroutines.coroutineContext
 import kotlin.math.log
 
 class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerView.Adapter<Pager2ViewHolder>() {
@@ -56,8 +63,6 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
         if ( position == getItemCount()-1 ){
             holder.submitBtn.visibility = View.VISIBLE
 
-
-
             holder.submitBtn.setOnClickListener {
 
                 //getScore()
@@ -66,8 +71,13 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
                 Log.e("AdapterPager", "$pass")
                 if (pass != null) {
                     if (pass >= 50) {
+
                         val action = QuestionsFragmentDirections.actionQuestionsFragmentToLevelUpFragment()
                         it.findNavController().navigate(action)
+
+                        if ( currentLevel <= level ) {
+                            firebaseFirestore.collection("users").document(firebaseUserId)
+                                .update("currentLevel", level, "nextLevel",level.toInt()+1)}
                     } else {
                         val action = QuestionsFragmentDirections.actionQuestionsFragmentToTryAgainFragment()
                         it.findNavController().navigate(action)
@@ -112,6 +122,26 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
                 checkAnswers(holder.option4,buttons, quizQuestion.correctAnswer)
             }
 
+        holder.ivCancel.setOnClickListener {
+
+            val action = QuestionsFragmentDirections.actionQuestionsFragmentToMainMenuFragment()
+            it.findNavController().navigate(action)
+//            val mBuilder = AlertDialog.Builder(???)
+//            mBuilder.setTitle("Exit")
+//            mBuilder.setMessage("Are you sure you want to Exit?")
+//            val mDialog = mBuilder.create()
+//
+//            mBuilder.setPositiveButton("Yes"){_,_ ->
+//                val action = QuestionsFragmentDirections.actionQuestionsFragmentToMainMenuFragment()
+//                it.findNavController().navigate(action)
+//            }
+//            mBuilder.setNegativeButton("No") {_,_ ->
+//            mDialog.dismiss()
+//            }
+//            mDialog.show()
+
+        }
+
         }
 
     fun getScore(){
@@ -128,7 +158,7 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
                     } else {
 
                         value!!.apply {
-                           prevScore =  value.get("$level").toString()
+                           prevScore =  value.get("score$level").toString()
                             Log.e(TAG, "onEvent: $prevScore $level", )
                         }
 
@@ -136,6 +166,7 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
                 }
 
             })
+        //Log.e(TAG, "onEvent: $prevScore $level", )
     }
 
     fun updateScore() {
@@ -144,14 +175,13 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
         getCurrentLevelFromFirebase()
 
         Log.e(TAG, "getScoreFromFirebase: $totalScore", )
-//        firebaseFirestore.collection("users").document(firebaseUserId)
-//            .update("score", "6" )
+
 
         if (prevScore.toInt() < score) {
             if ( prevScore.toInt() == 0 ) {
                 firebaseFirestore.collection("users").document(firebaseUserId)
                     .collection("scoreLevel").document("Levels")
-                    .update("$level", score)
+                    .update("score$level", score)
                 score = totalScore.toInt() + score
                 firebaseFirestore.collection("users").document(firebaseUserId)
                     .update("score", score.toString() )
@@ -172,11 +202,6 @@ class ViewPagerAdapter(var data: List<Question> , var level: String ): RecyclerV
 
         }
 
-        if ( currentLevel < level ) {
-            firebaseFirestore.collection("users").document(firebaseUserId)
-                .update("currentLevel", level)
-
-        }
     }
 
     fun checkAnswers ( btn:Button,listOfbtn: List<Button>, answer: String ){
@@ -251,5 +276,6 @@ class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val tvLevel: TextView = itemView.findViewById(R.id.tvLevel)
     val tvScore: TextView = itemView.findViewById(R.id.tvScore)
     val submitBtn: Button = itemView.findViewById(R.id.btnSubmit)
+    val ivCancel : ImageView = itemView.findViewById(R.id.ivCancel)
 
 }
