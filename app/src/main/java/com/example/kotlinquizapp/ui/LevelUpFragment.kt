@@ -41,7 +41,7 @@ class LevelUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainMenuBtn = view.findViewById(R.id.btnMainMenu)
-        yourScore = view.findViewById(R.id.yourScore)
+       // yourScore = view.findViewById(R.id.yourScore)
 
 //        firebaseFirestore.collection("users").document(firebaseUserId)
 //            .collection("scoreLevel")

@@ -40,7 +40,7 @@ class TryAgainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainMenuBtn = view.findViewById(R.id.btnMainMenu)
-        tvYourScore = view.findViewById(R.id.tvYourScore)
+        //tvYourScore = view.findViewById(R.id.tvYourScore)
 
 //        firebaseFirestore.collection("users").document(firebaseUserId)
 //            .collection("scoreLevel")

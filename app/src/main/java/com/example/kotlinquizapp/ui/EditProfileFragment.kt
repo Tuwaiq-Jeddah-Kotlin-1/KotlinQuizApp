@@ -18,7 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class EditProfileFragment : Fragment() {
@@ -64,7 +67,7 @@ class EditProfileFragment : Fragment() {
         }
 
         saveChanges.setOnClickListener {
-            uploadPhoto()
+          uploadPhoto()
 
             if(newUsername.text.toString()!= ""){
                 firebaseFirestore.collection("users").document(firebaseUserId)
@@ -88,6 +91,7 @@ class EditProfileFragment : Fragment() {
         i.setAction(Intent.ACTION_GET_CONTENT)
         startActivityForResult(Intent.createChooser(i,getString(R.string.chosePic)),111)
     }
+
 
     private fun uploadPhoto(){
         if(filePath != null){

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.SignInFragment">
 
+    <View
+        android:id="@+id/view3"
+        android:layout_width="367dp"
+        android:layout_height="420dp"
+        android:layout_marginBottom="350dp"
+        android:background="@drawable/custom_button2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 
     <TextView
@@ -21,6 +31,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <TextView
         android:id="@+id/textView8"
@@ -38,7 +50,7 @@
         android:layout_width="292dp"
         android:layout_height="44dp"
         android:layout_marginTop="52dp"
-        android:hint="Email"
+        android:hint="@string/email"
         android:lines="1"
         android:textAllCaps="false"
         android:textSize="20sp"
@@ -66,7 +78,7 @@
         android:id="@+id/tvForgetPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Foreget Password?"
+        android:text="@string/foreget_password_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />

@@ -32,4 +32,14 @@
     <string name="main_menu">القائمة الرئيسية</string>
     <string name="Choose_language">اختر اللغة</string>
     <string name="ok">حسنًا</string>
+    <string name="forget_password">اعادة تعيين كلمة المرور</string>
+    <string name="please_enter_your_email_address_we_will_send_you_an_email_to_reset_your_password">الرجاء ادخال البريد الالكتروني ليتم ارسال رابط اعادة تعيين كلمة المرور.</string>
+    <string name="submit">ارسال</string>
+    <string name="level_">المرحلة</string>
+    <string name="username_">اسم المستخدم:</string>
+    <string name="foreget_password_">هل نسيت كلمة المرور؟</string>
+    <string name="please_enter_your_email">الرجاء ادخال كلمة المرور</string>
+    <string name="email_sent">تم الارسال بنجاح</string>
+    <string name="new_account">You\'ve created new account Successfully</string>
+    <string name="mismatch">Password mismatch</string>
 </resources>

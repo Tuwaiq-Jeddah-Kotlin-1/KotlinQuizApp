@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinquizapp.*
@@ -29,7 +30,7 @@ class MainMenuFragment : Fragment() {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val firebaseUserId: String = auth.currentUser!!.uid
 
-    private lateinit var nextLevel : String
+    private lateinit var nextLevel: String
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -49,7 +50,8 @@ class MainMenuFragment : Fragment() {
         level = view.findViewById(R.id.tvPlayerLevel)
         recyclerView = view.findViewById(R.id.rvLevel)
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         firebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -73,15 +75,15 @@ class MainMenuFragment : Fragment() {
             })
 
         var vm = ViewModelProvider(this).get(MainVM::class.java)
-//         if (nextLevel.isNullOrEmpty()) {
-             vm.fetchQuiz().observe(viewLifecycleOwner, {
-               //  Log.e("TAG", "nexxt: $nextLevel", )
-        recyclerView.adapter = LevelAdapter(it.quiz,nextLevel)
 
-    })
+        vm.fetchQuiz().observe(viewLifecycleOwner, {
+
+            recyclerView.adapter = LevelAdapter(it.quiz, nextLevel)
+
+        })
+    }
+
 }
 
-    }
-//}
 
 

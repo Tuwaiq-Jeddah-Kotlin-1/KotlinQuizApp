@@ -27,9 +27,12 @@ class SignUpFragment : Fragment() {
     private lateinit var username: EditText
     private lateinit var signUp: Button
     private lateinit var backToSignIn: ImageView
-    var firebaseFirestore: FirebaseFirestore =FirebaseFirestore.getInstance()
+
+private lateinit var firebaseFirestore: FirebaseFirestore
+
     lateinit var ref: DatabaseReference
-    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var  auth: FirebaseAuth
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +58,9 @@ class SignUpFragment : Fragment() {
         signUp = view.findViewById(R.id.btnSignUp)
         backToSignIn = view.findViewById(R.id.ivBackToSignIn)
 
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         backToSignIn.setOnClickListener {
             val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
             findNavController().navigate(action)
@@ -64,7 +70,7 @@ class SignUpFragment : Fragment() {
         signUp.setOnClickListener {
             if (checkEmpty(arrayListOf(username, email, pass))) {
                 if (confirm.text.toString() != pass.text.toString()) {
-                    confirm.error = "Password mismatch"
+                    confirm.error = getString(R.string.mismatch)
                 } else {
                     auth.createUserWithEmailAndPassword(email.text.toString(), pass.text.toString())
                         .addOnCompleteListener { task ->
@@ -74,13 +80,19 @@ class SignUpFragment : Fragment() {
                                 ref = FirebaseDatabase.getInstance().reference.child("Users")
                                     .child(auth.currentUser!!.uid)
 
-                                val user = User(auth.currentUser!!.uid,username.text.toString(),email.text.toString())
+                                val user = User(
+                                    auth.currentUser!!.uid,
+                                    username.text.toString(),
+                                    email.text.toString()
+                                )
                                 val scoreLevel = ScoreLevel()
 
-                                firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
+                                firebaseFirestore.collection("users")
+                                    .document(auth.currentUser!!.uid)
                                     .set(user)
-                                firebaseFirestore.collection("users").document(auth.currentUser!!.uid)
-                                .collection("scoreLevel").document("Levels")
+                                firebaseFirestore.collection("users")
+                                    .document(auth.currentUser!!.uid)
+                                    .collection("scoreLevel").document("Levels")
                                     .set(scoreLevel)
 
                                     .addOnSuccessListener {
@@ -91,20 +103,26 @@ class SignUpFragment : Fragment() {
                                     }
 
 
-                                Toast.makeText(context,
-                                    "You've created new account Successfully",
-                                    Toast.LENGTH_LONG)
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.new_account),
+                                    Toast.LENGTH_LONG
+                                )
                                     .show()
 
-                                val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
+                                val action =
+                                    SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
                                 findNavController().navigate(action)
 
                             } else {
-                                Toast.makeText(context,
+                                Toast.makeText(
+                                    context,
                                     task.exception!!.message.toString(),
-                                    Toast.LENGTH_LONG)
+                                    Toast.LENGTH_LONG
+                                )
                                     .show()
-                            } }
+                            }
+                        }
                 }
             }
         }
@@ -113,18 +131,25 @@ class SignUpFragment : Fragment() {
     }
 
 
-    }
 
-    fun checkEmpty(arrayListOf: ArrayList<EditText>): Boolean {
-            var returnValue = false
-            for (i in arrayListOf) {
-                if (i.text.toString() == "") {
-                    i.error = "must be filled"
-                    returnValue = false
-                } else {
-                    returnValue = true
-                }
-            }
-            return returnValue
+
+fun checkEmpty(arrayListOf: ArrayList<EditText>): Boolean {
+    var returnValue = false
+    for (i in arrayListOf) {
+        if (i.text.toString() == "") {
+            i.error = "must be filled"
+            returnValue = false
+        } else {
+            returnValue = true
+        }
     }
+    return returnValue
+}
+    val EMAIL_PATTREN = "[a-zA-Z0-9._]+@[a-z]+\\.+[a-z]+"
+    fun checkEmail(email: String) : Boolean {
+        if(email.matches(EMAIL_PATTREN.toRegex()))
+            return true
+            return false
+    }
+}
 
