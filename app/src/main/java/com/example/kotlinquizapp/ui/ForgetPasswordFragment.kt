@@ -39,23 +39,27 @@ class ForgetPasswordFragment : Fragment() {
         btnSubmit = view.findViewById(R.id.btnResetPassword)
 
         btnSubmit.setOnClickListener {
-            val email = etEmail.text.toString()
-            if (email.isEmpty()) {
-                Toast.makeText(context,getString(R.string.please_enter_your_email),Toast.LENGTH_LONG).show()
-            } else {
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                    .addOnCompleteListener{ task ->
-                        if (task.isSuccessful){
-                            Toast.makeText(context, getString(R.string.email_sent),Toast.LENGTH_LONG).show()
+           forgetPass()
+        }
+    }
 
-                            val action = ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToSignInFragment()
-                            findNavController().navigate(action)
-                        } else {
-                            Toast.makeText(context, task.exception!!.message.toString(), Toast.LENGTH_LONG).show()
-                        }
+    private fun forgetPass(){
+        val email = etEmail.text.toString()
+        if (email.isEmpty()) {
+            Toast.makeText(context,getString(R.string.please_enter_your_email),Toast.LENGTH_LONG).show()
+        } else {
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener{ task ->
+                    if (task.isSuccessful){
+                        Toast.makeText(context, getString(R.string.email_sent),Toast.LENGTH_LONG).show()
 
+                        val action = ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToSignInFragment()
+                        findNavController().navigate(action)
+                    } else {
+                        Toast.makeText(context, task.exception!!.message.toString(), Toast.LENGTH_LONG).show()
                     }
-            }
+
+                }
         }
     }
 

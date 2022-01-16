@@ -44,4 +44,9 @@
     <string name="email_sent">Email sent successfully</string>
     <string name="new_account">You\'ve created new account Successfully</string>
     <string name="mismatch">Password mismatch</string>
+    <string name="deleteAccount">Delete Account</string>
+    <string name="areYouSure">Are you sure you want to delete your account?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="Contact_us">Contact Us</string>
 </resources>

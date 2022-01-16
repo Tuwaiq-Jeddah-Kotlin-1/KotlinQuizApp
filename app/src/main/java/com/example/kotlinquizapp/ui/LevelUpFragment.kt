@@ -20,14 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 class LevelUpFragment : Fragment() {
 
     private lateinit var mainMenuBtn: Button
-    private lateinit var nextLevelBtn: Button
 
-    private lateinit var yourScore: TextView
-
-
-//    var firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-//    val auth : FirebaseAuth = FirebaseAuth.getInstance()
-//    var firebaseUserId: String = auth.currentUser!!.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,24 +34,6 @@ class LevelUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainMenuBtn = view.findViewById(R.id.btnMainMenu)
-       // yourScore = view.findViewById(R.id.yourScore)
-
-//        firebaseFirestore.collection("users").document(firebaseUserId)
-//            .collection("scoreLevel")
-//            .document("Levels").addSnapshotListener(object: EventListener<DocumentSnapshot> {
-//                override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-//                    if (error != null) {
-//                        Log.e(
-//                            "TAG",
-//                            "Firestore error in retrieving data" + error.message.toString()
-//                        )
-//                    } else {
-//                        yourScore.text = value!!.get("").toString()
-//                    }
-//                }
-//            })
-
-
 
         mainMenuBtn.setOnClickListener {
             val action = LevelUpFragmentDirections.actionLevelUpFragmentToMainMenuFragment()

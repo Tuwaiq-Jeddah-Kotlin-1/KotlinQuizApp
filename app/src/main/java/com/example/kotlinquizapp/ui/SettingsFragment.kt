@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat.recreate
 import com.example.kotlinquizapp.R
 import java.util.*
 import android.os.Build
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -24,7 +26,7 @@ import com.example.kotlinquizapp.MainActivity
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var share: Button
+    private lateinit var contactUs: Button
     private lateinit var language: Button
 
 
@@ -40,19 +42,10 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        share = view.findViewById(R.id.btnShare)
+        contactUs = view.findViewById(R.id.btnShare)
         language = view.findViewById(R.id.btnLanguage)
 
-
-
-        val url = "Application Link"
-
-        share.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_TEXT, url)
-            startActivity(Intent.createChooser(intent, "Share using"))
-        }
+        emailIntent()
 
         language.setOnClickListener {
             showLangDialog()
@@ -79,39 +72,38 @@ class SettingsFragment : Fragment() {
         mDialog.show()
     }
 
-    fun setLocale(lang: String){
+    fun setLocale(lang: String) {
 
         val locale = Locale(lang)
         Locale.setDefault(locale)
         val config = Configuration()
         config.locale = locale
-        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+        requireContext().resources.updateConfiguration(
+            config,
+            requireContext().resources.displayMetrics
+        )
 
         val myPref = requireContext().getSharedPreferences("myPref", MODE_PRIVATE)
         val editor = myPref.edit()
 
-        editor.putString("MyLang",lang)
+        editor.putString("MyLang", lang)
         editor.commit()
 
     }
 
-    fun loadLocale(){
-        var sharedPreferences = requireContext().getSharedPreferences("myPref", MODE_PRIVATE)
-        var language = sharedPreferences.getString("MyLang", "")
-        setLocale(language!!)
+    fun emailIntent() {
+        contactUs.setText(Html.fromHtml("<a href=\"mailto:info@kotlinquiz.com.au\">${getString(R.string.Contact_us)}</a>"))
+        contactUs.movementMethod = LinkMovementMethod.getInstance()
 
     }
 
-
-
-    private fun refreshCurrentFragment(){
+    private fun refreshCurrentFragment() {
         val id = findNavController().currentDestination?.id
         findNavController().navigateUp()
         findNavController().navigate(id!!)
 
-        Log.e("Access","$id")
+        Log.e("Access", "$id")
     }
-
 
 
 }

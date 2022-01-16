@@ -9,9 +9,6 @@
         android:title="@string/main_menu"
         android:icon="@drawable/ic_home"/>
 
-    <item android:id="@+id/leaderboardFragment"
-        android:title="Leaderboard"
-        android:icon="@drawable/ic_leaderboard"/>
 
     <item android:id="@+id/settingsFragment"
         android:title="@string/settings"

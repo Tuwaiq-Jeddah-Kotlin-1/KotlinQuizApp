@@ -41,17 +41,9 @@
             android:id="@+id/action_mainMenuFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_mainMenuFragment_to_leaderboardFragment"
-            app:destination="@id/leaderboardFragment" />
-        <action
             android:id="@+id/action_mainMenuFragment_to_startLevelFragment"
             app:destination="@id/startLevelFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/leaderboardFragment"
-        android:name="com.example.kotlinquizapp.ui.LeaderboardFragment"
-        android:label="fragment_leaderboard"
-        tools:layout="@layout/fragment_leaderboard" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.kotlinquizapp.ui.SettingsFragment"

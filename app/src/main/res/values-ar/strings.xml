@@ -40,6 +40,12 @@
     <string name="foreget_password_">هل نسيت كلمة المرور؟</string>
     <string name="please_enter_your_email">الرجاء ادخال كلمة المرور</string>
     <string name="email_sent">تم الارسال بنجاح</string>
-    <string name="new_account">You\'ve created new account Successfully</string>
-    <string name="mismatch">Password mismatch</string>
+    <string name="new_account">تم عمل حساب جديد بنجاح</string>
+    <string name="mismatch">كلمة مرور غير متطابقة</string>
+    <string name="deleteAccount">Dحذف الحساب</string>
+    <string name="areYouSure">هل انت متأكد من حذف الحساب؟</string>
+    <string name="yes">نعم</string>
+    <string name="cancel">الغاء</string>
+    <string name="Contact_us">تواصل معنا</string>
+
 </resources>

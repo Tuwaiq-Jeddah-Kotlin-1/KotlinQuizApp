@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinquizapp.*
 import com.example.kotlinquizapp.Data.MainVM
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,11 +23,9 @@ class MainMenuFragment : Fragment() {
 
     private lateinit var username: TextView
     private lateinit var level: TextView
-
     lateinit var firebaseFirestore: FirebaseFirestore
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val firebaseUserId: String = auth.currentUser!!.uid
-
     private lateinit var nextLevel: String
     private lateinit var recyclerView: RecyclerView
 
@@ -38,8 +34,6 @@ class MainMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 

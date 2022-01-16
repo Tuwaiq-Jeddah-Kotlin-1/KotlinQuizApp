@@ -12,20 +12,16 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kotlinquizapp.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 class SignInFragment : Fragment() {
 
-    val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private lateinit var email: EditText
     private lateinit var pass: EditText
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
     private lateinit var forgetPassword: TextView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +40,8 @@ class SignInFragment : Fragment() {
         createAccount = view.findViewById(R.id.btnCreateAccount)
         forgetPassword = view.findViewById(R.id.tvForgetPassword)
 
-
-
-
         val currentUser = auth.currentUser
-        if(currentUser != null ){
+        if (currentUser != null) {
             val action = SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
             findNavController().navigate(action)
         }
@@ -58,36 +51,8 @@ class SignInFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-
         signIn.setOnClickListener {
-            if (checkEmpty(arrayListOf(email, pass))) {
-
-                auth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-
-                            //val firebaseUser: FirebaseUser = task.result!!.user!!
-                            Toast.makeText(
-                                context,
-                                "Signed in Successfully",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-
-                            val action =
-                                SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
-                            findNavController().navigate(action)
-
-                        } else {
-                            Toast.makeText(
-                                context,
-                                task.exception!!.message.toString(),
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-                        }
-                    }
-            }
+            signIn()
         }
 
         forgetPassword.setOnClickListener {
@@ -96,6 +61,35 @@ class SignInFragment : Fragment() {
         }
     }
 
+    fun signIn() {
+        if (checkEmpty(arrayListOf(email, pass))) {
+
+            auth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            context,
+                            "Signed in Successfully",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+
+                        val action =
+                            SignInFragmentDirections.actionSignInFragmentToMainMenuFragment()
+                        findNavController().navigate(action)
+
+                    } else {
+                        Toast.makeText(
+                            context,
+                            task.exception!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    }
+                }
+        }
+
+    }
 
     fun checkEmpty(arrayListOf: ArrayList<EditText>): Boolean {
         var returnValue = false
@@ -109,6 +103,7 @@ class SignInFragment : Fragment() {
         }
         return returnValue
     }
+
 }
 
 

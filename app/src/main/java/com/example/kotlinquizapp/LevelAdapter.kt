@@ -22,14 +22,11 @@ class LevelAdapter(var data: List<Quiz>, var nextLevel: String) :
     RecyclerView.Adapter<LevelViewHolder>() {
 
 
-    // var firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    //var firebaseUserId: String = auth.currentUser!!.uid
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LevelViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.level_item, parent, false)
-
 
         return LevelViewHolder(v)
     }
@@ -46,14 +43,13 @@ class LevelAdapter(var data: List<Quiz>, var nextLevel: String) :
             holder.itemView.isEnabled = true
         } else {
             holder.itemView.isEnabled = false
-
             holder.itemView.background.setTint(Color.LTGRAY)
         }
 
 
         if (holder.itemView.isEnabled) {
-            holder.itemView.setOnClickListener {
 
+            holder.itemView.setOnClickListener {
                 val action =
                     MainMenuFragmentDirections.actionMainMenuFragmentToStartLevelFragment(quizlevel)
                 it.findNavController().navigate(action)

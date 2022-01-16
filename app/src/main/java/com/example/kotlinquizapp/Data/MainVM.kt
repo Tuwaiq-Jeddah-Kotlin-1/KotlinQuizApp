@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizapp.Network.Data
-import com.example.kotlinquizapp.Network.Quiz
 import com.example.kotlinquizapp.Network.QuizRepo
 import kotlinx.coroutines.launch
 

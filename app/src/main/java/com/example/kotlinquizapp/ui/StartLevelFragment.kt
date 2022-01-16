@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.kotlinquizapp.Network.Data
 import com.example.kotlinquizapp.R
 
 class StartLevelFragment : Fragment() {
@@ -38,7 +37,10 @@ class StartLevelFragment : Fragment() {
 
         startBtn.setOnClickListener {
 
-            val action = StartLevelFragmentDirections.actionStartLevelFragmentToQuestionsFragment(arg.levelArg,arg.levelArg.level.toString())
+            val action = StartLevelFragmentDirections.actionStartLevelFragmentToQuestionsFragment(
+                arg.levelArg,
+                arg.levelArg.level.toString()
+            )
             findNavController().navigate(action)
         }
 
