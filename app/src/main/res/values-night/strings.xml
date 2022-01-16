@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="chosePic">Choose Picture</string>
+    <string name="SignedOut">Signed out</string>
+    <string name="choose_photo">Choose Photo</string>
+    <string name="new_username">New username</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="level_up">Level up</string>
+    <string name="next">Next</string>
+    <string name="profile">Profile</string>
+    <string name="total_score">Total Score</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="share">Share</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="level">Level</string>
+    <string name="sorry_try_again">Sorry.. try again</string>
+    <string name="your_score">Your Score</string>
+    <string name="try_again">Try again</string>
+    <string name="main_menu">Main Menu</string>
+</resources>
