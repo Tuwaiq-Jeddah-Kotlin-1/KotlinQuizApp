@@ -73,10 +73,11 @@ class EditProfileFragment : Fragment() {
         if(newUsername.text.toString()!= ""){
             firebaseFirestore.collection("users").document(firebaseUserId)
                 .update("user_name",newUsername.text.toString())
+            val action = EditProfileFragmentDirections.actionEditProfileFragmentToProfileFragment()
+            findNavController().navigate(action)
+
+        } else {
+            Toast.makeText(context, getString(R.string.enter_your_new_username), Toast.LENGTH_LONG).show()
         }
-
-        val action = EditProfileFragmentDirections.actionEditProfileFragmentToProfileFragment()
-        findNavController().navigate(action)
-
     }
 }
