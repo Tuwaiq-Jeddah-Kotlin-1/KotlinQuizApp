@@ -47,5 +47,6 @@
     <string name="yes">نعم</string>
     <string name="cancel">الغاء</string>
     <string name="Contact_us">تواصل معنا</string>
+    <string name="enter_your_new_username">الرجاء ادخال اسم المستخدم الجديد</string>
 
 </resources>
