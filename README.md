@@ -23,5 +23,3 @@ Simple Quiz application, for android devecies using Kotlin Language.
 ### Application Screens :
 
 https://user-images.githubusercontent.com/91448520/149758514-f1d22468-4d8f-4e0a-9676-db5cbac28dc7.mov
-
-
