@@ -16,14 +16,9 @@ Simple Quiz application, for android devecies using Kotlin Language.
 - ViewPager for going from question to another.
 - Work manager for notification.
 
-### SRS :
-
-https://docs.google.com/document/d/1gAONmNnDP6EVMQeOy3a7LSzHxTLoQKxmfJFt7sqxYx4/edit?usp=sharing
-
-### Presentaion Link : 
-
-https://docs.google.com/presentation/d/1PAiOhv207-QwMX1AFA1UVveGC9yKa3_H/edit?usp=sharing&ouid=102967493452516008593&rtpof=true&sd=true
-
+### Link for [SRS](https://docs.google.com/document/d/1gAONmNnDP6EVMQeOy3a7LSzHxTLoQKxmfJFt7sqxYx4/edit?usp=sharing)
+### Link for [Presentaion](https://docs.google.com/presentation/d/1PAiOhv207-QwMX1AFA1UVveGC9yKa3_H/edit?usp=sharing&ouid=102967493452516008593&rtpof=true&sd=true) 
+### Link for [Trello](https://trello.com/b/GeSXl9GG/kotlin-quiz-app)
 
 ### Application Screens :
 
