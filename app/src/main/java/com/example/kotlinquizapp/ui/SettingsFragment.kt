@@ -1,5 +1,6 @@
 package com.example.kotlinquizapp.ui
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -58,14 +59,16 @@ class SettingsFragment : Fragment() {
         val mBuilder = AlertDialog.Builder(context)
         mBuilder.setTitle(getString(R.string.Choose_language))
         mBuilder.setPositiveButton(getString(R.string.ok)) { _, _ ->
-            refreshCurrentFragment()
+           refreshCurrentFragment()
         }
         mBuilder.setSingleChoiceItems(listLang, -1) { dialog, which ->
 
             if (which == 0) {
                 setLocale("ar")
+                //refreshCurrentFragment()
             } else {
                 setLocale("en")
+               // refreshCurrentFragment()
             }
         }
         val mDialog = mBuilder.create()
@@ -87,7 +90,8 @@ class SettingsFragment : Fragment() {
         val editor = myPref.edit()
 
         editor.putString("MyLang", lang)
-        editor.commit()
+        editor.apply()
+       recreate(context as Activity)
 
     }
 
